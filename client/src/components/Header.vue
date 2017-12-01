@@ -6,7 +6,7 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <router-link to="/add-contact" class="navbar-brand">Add Contact</router-link>
+                    <router-link to="/add-contact" tag="li" class="navbar-brand" activeClass="active"><a id="add-contact">Add Contact</a></router-link>
                 </ul>
             </div>
         </div>
@@ -20,6 +20,9 @@ export default {
 </script>
 
 <style>
+#add-contact {
+    display: inline;
+}
 
 </style>
 
