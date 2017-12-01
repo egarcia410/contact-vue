@@ -1,17 +1,17 @@
 
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('contacts', function (table) {
-        table.increments();
-        table.string('firstname');
-        table.string('lastname');
-        table.date('dob');
-        table.string('street');
-        table.string('city');
-        table.string('state');
-        table.string('zipcode');
-        table.string('number');
-        table.string('email');
-        table.timestamps();
+        table.increments().notNullable();
+        table.string('firstname').notNullable();
+        table.string('lastname').notNullable();
+        table.date('dob').notNullable();
+        table.string('street').notNullable();
+        table.string('city').notNullable();
+        table.string('state').notNullable();
+        table.string('zipcode').notNullable();
+        table.string('number').notNullable();
+        table.string('email').notNullable();
+        table.timestamps().notNullable().defaultTo(knex.raw('now()'));
     }) 
 };
 

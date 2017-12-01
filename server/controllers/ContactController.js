@@ -3,8 +3,8 @@ const knex = require('../db/knex');
 module.exports = {
 
     create(req, res) {
-        let firstName = req.body.firstName;
-        let lastName = req.body.lastName;
+        let firstName = req.body.firstname;
+        let lastName = req.body.lastname;
         let dob = req.body.dob;
         let street = req.body.street;
         let city = req.body.city;

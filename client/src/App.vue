@@ -28,7 +28,7 @@
       padding: 30px;
   }
 
-  /* .slide-enter-active {
+  .slide-enter-active {
       animation: slide-in 200ms ease-out forwards;
   }
 
@@ -56,5 +56,5 @@
           transform: translateY(-30px);
           opacity: 0;
       }
-  } */
+  }
 </style>
