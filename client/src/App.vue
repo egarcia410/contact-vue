@@ -17,8 +17,11 @@
     components: {
       appHeader: Header
     },
+    // Sets contacts state with contacts from database
+    // Runs after instance is created
     created() {
-      this.$store.dispatch('initContacts');
+        console.log('Inside app.vue initContacts');
+        this.$store.dispatch('initContacts');
     }
   }
 </script>

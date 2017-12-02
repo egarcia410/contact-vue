@@ -2,6 +2,7 @@ const knex = require('../db/knex');
 
 module.exports = {
 
+    // Create new contact
     create(req, res) {
         let firstName = req.body.firstname;
         let lastName = req.body.lastname;
@@ -25,7 +26,6 @@ module.exports = {
                                     number: number,
                                     email: email })
             .then((result) => {
-                console.log(result)
                 res.send({
                     message: "Contact has been added!"
                 });
@@ -35,6 +35,16 @@ module.exports = {
                 res.send({
                     message: "Unable to add contact!"
                 });
+            })
+    },
+    // Retrieve all contacts
+    getContacts(req, res) {
+        knex.select().table('contacts')
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => {
+                console.log(error)
             })
     }
 }

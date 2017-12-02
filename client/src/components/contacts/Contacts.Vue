@@ -1,7 +1,7 @@
 <template>
     <div>
-        <app-search />
-        <app-list />
+        <!-- <app-search /> -->
+        <app-contact-list />
     </div>
 </template>
 
@@ -11,8 +11,8 @@ import ContactList from './ContactList.vue';
 
 export default {
     components: {
-        appSearch: SearchBar,
-        appList: ContactList
+        appSearchBar: SearchBar,
+        appContactList: ContactList
     }
 }
 </script>

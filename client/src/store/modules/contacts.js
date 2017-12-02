@@ -1,3 +1,5 @@
+import ContactService from '../../services/ContactService';
+
 const state = {
     contacts: []
 }
@@ -11,8 +13,15 @@ const mutations = {
 }
 
 const actions = {
-    initContacts: ({commit}, contacts) => {
-        commit('SET_CONACTS', contacts);
+    initContacts: ({commit}) => {
+        ContactService.getContacts()
+            .then((contacts) => {
+                console.log(contacts, 'Inside actions store')
+                commit('SET_CONTACTS', contacts);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     },
     addContact: ({commit}, contact) => {
         commit('ADD_CONTACT', contact);
