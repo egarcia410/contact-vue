@@ -4,15 +4,17 @@ module.exports = {
 
     // Create new contact
     create(req, res) {
-        let firstName = req.body.firstname;
-        let lastName = req.body.lastname;
-        let dob = req.body.dob;
-        let street = req.body.street;
-        let city = req.body.city;
-        let state = req.body.state;
-        let zipcode = req.body.zipcode;
-        let number = req.body.number;
-        let email = req.body.email;
+        contact = {
+            firstName: req.body.firstname,
+            lastName: req.body.lastname,
+            dob: req.body.dob,
+            street: req.body.street,
+            city: req.body.city,
+            state: req.body.state,
+            zipcode: req.body.zipcode,
+            number: req.body.number,
+            email: req.body.email
+        }
 
         // Insert contact validation
 
@@ -26,6 +28,7 @@ module.exports = {
                                     number: number,
                                     email: email })
             .then((result) => {
+                console.log(result)
                 res.send({
                     message: "Contact has been added!"
                 });

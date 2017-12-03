@@ -131,6 +131,9 @@ export default {
       });
       // Display message regarding any errors or successful create
       this.message = response.data.message;
+      // Update Vuex state of contacts
+      console.log(response.data)
+      this.$store.dispatch('addContact', response.data)
       // Reset input fields
       this.firstname = '';
       this.lastname = '';

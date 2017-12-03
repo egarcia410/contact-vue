@@ -8,16 +8,22 @@ const mutations = {
     'SET_CONTACTS' (state, contacts) {
         state.contacts = contacts;
     },
-    // 'ADD_CONTACT'
-    // 'REMOVE_CONTACT'
+    'ADD_CONTACT' (state, contact) {
+        // create copy of old state
+        let contacts = state.contacts.splice();
+        // Append new contact to contacts array
+        contacts.push(contact);
+        // Set contacts state to the copied state
+        state.contacts = contacts;
+    }
+
 }
 
 const actions = {
     initContacts: ({commit}) => {
         ContactService.getContacts()
             .then((contacts) => {
-                console.log(contacts, 'Inside actions store')
-                commit('SET_CONTACTS', contacts);
+                commit('SET_CONTACTS', contacts.data);
             })
             .catch((error) => {
                 console.log(error)
@@ -25,9 +31,6 @@ const actions = {
     },
     addContact: ({commit}, contact) => {
         commit('ADD_CONTACT', contact);
-    },
-    removeContact: ({commit}, contact) => {
-        commit('REMOVE_CONTACT', contact);
     }
 }
 
