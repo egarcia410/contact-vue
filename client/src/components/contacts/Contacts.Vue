@@ -13,6 +13,9 @@ export default {
     components: {
         appSearchBar: SearchBar,
         appContactList: ContactList
+    },
+    mounted() {
+        this.$store.dispatch('initContacts');
     }
 }
 </script>

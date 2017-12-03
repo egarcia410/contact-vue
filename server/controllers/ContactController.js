@@ -4,9 +4,9 @@ module.exports = {
 
     // Create new contact
     create(req, res) {
-        contact = {
-            firstName: req.body.firstname,
-            lastName: req.body.lastname,
+        let contact = {
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
             dob: req.body.dob,
             street: req.body.street,
             city: req.body.city,
@@ -18,24 +18,18 @@ module.exports = {
 
         // Insert contact validation
 
-        knex('contacts').insert({   firstname: firstName, 
-                                    lastname: lastName, 
-                                    dob: dob,
-                                    street: street,
-                                    city: city,
-                                    state: state,
-                                    zipcode: zipcode,
-                                    number: number,
-                                    email: email })
+        knex('contacts').insert(contact)
             .then((result) => {
-                console.log(result)
                 res.send({
+                    contact: contact,
+                    status: 'success',
                     message: "Contact has been added!"
                 });
             })
             .catch((error) => {
                 console.log(error)
                 res.send({
+                    result: 'error',
                     message: "Unable to add contact!"
                 });
             })

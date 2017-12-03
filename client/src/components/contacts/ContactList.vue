@@ -27,7 +27,6 @@
 export default {
     computed: {
         contacts() {
-            console.log('Getting contacts')
             return this.$store.getters.contacts;
         }
     }

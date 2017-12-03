@@ -98,6 +98,7 @@
 
 <script>
 import ContactService from '../../services/ContactService';
+import swal from 'sweetalert';
 
 export default {
   data () {
@@ -131,9 +132,10 @@ export default {
       });
       // Display message regarding any errors or successful create
       this.message = response.data.message;
-      // Update Vuex state of contacts
-      console.log(response.data)
-      this.$store.dispatch('addContact', response.data)
+      // Display alert with response received from backend - error or success
+      swal(response.data.status, response.data.message, response.data.status);
+      // Update Vuex state of contacts with newly added contact
+      this.$store.dispatch('addContact', response.data.contact)
       // Reset input fields
       this.firstname = '';
       this.lastname = '';
