@@ -16,7 +16,12 @@
                 <p class="card-text">{{ contact.street }}</p>
                 <p class="card-text">{{ contact.city }}, {{ contact.state }} {{ contact.zipcode }}</p>
                 <div class="card-body">
-                    <button @click="deleteContact(contact.id)" class="btn btn-danger delete">Delete Contact</button>
+                    <button @click="deleteContact(contact.id)" class="btn btn-danger button">Delete</button>
+                    <router-link 
+                        :to="{ name: 'edit', params: { id: contact.id }}" 
+                        tag="button" 
+                        class="btn btn-info button"
+                        >Edit</router-link>
                 </div>
             </div>
         </li>
@@ -63,7 +68,7 @@ li {
     background-color: #F3C35F;
 }
 
-.delete:hover {
+.button:hover {
     color: #9CF;
 }
 

@@ -3,42 +3,42 @@
     <form id="contact-form">
       <div class="form-group">
         <label for="firstname">First name</label>
-        <input v-validate="'required'" name="firstname" type="text" class="form-control" v-model="firstname" placeholder="Enter First name">
+        <input v-validate="'required'" value="firstname" name="firstname" type="text" class="form-control" v-model="firstname" placeholder="Enter First name">
         <span v-show="errors.has('firstname')" class="text-danger">{{ errors.first('firstname') }}</span>
       </div>
       <div class="form-group">
         <label for="lastname">Last name</label>
-        <input v-validate="'required'" name="lastname" type="text" class="form-control" v-model="lastname" placeholder="Enter Last name">
+        <input v-validate="'required'" value="lastname" name="lastname" type="text" class="form-control" v-model="lastname" placeholder="Enter Last name">
         <span v-show="errors.has('lastname')" class="text-danger">{{ errors.first('lastname') }}</span>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input v-validate="'required|email'" name="email" type="email" class="form-control" v-model="email" placeholder="Enter Email">
+        <input v-validate="'required|email'" value="email" name="email" type="email" class="form-control" v-model="email" placeholder="Enter Email">
         <span v-show="errors.has('email')" class="text-danger">{{ errors.first('email') }}</span>
       </div>
       <div class="form-group">
         <label for="number">Phone Number</label>
-        <input v-validate="'required|digits: 10'" name="number" type="text" class="form-control" v-model="number" placeholder="1234567890">
+        <input v-validate="'required|digits: 10'" value="number" name="number" type="text" class="form-control" v-model="number" placeholder="1234567890">
         <span v-show="errors.has('number')" class="text-danger">{{ errors.first('number') }}</span>
       </div>
       <div class="form-group">
         <label for="dob">Date of birth</label>
-        <input v-validate="'required|date_format:MM/DD/YYYY|before:' + currentDate" name="date" type="text" class="form-control" v-model="dob" placeholder="MM/DD/YYYY">
-        <span v-show="errors.has('date')" class="text-danger">{{ errors.first('date') }}</span>
+        <input v-validate="'required|date_format:MM/DD/YYYY|before:' + currentDate" value="dob" name="dob" type="text" class="form-control" v-model="dob" placeholder="MM/DD/YYYY">
+        <span v-show="errors.has('dob')" class="text-danger">{{ errors.first('dob') }}</span>
       </div>
       <div class="form-group">
         <label for="email">Street Address</label>
-        <input v-validate="'required'" name="street" type="text" class="form-control" v-model="street" placeholder="Street Address">
+        <input v-validate="'required'" value="street" name="street" type="text" class="form-control" v-model="street" placeholder="Street Address">
         <span v-show="errors.has('street')" class="text-danger">{{ errors.first('street') }}</span>
       </div>
       <div class="form-group">
         <label for="city">City</label>
-        <input v-validate="'required'" name="city" type="text" class="form-control" v-model="city" placeholder="City">
+        <input v-validate="'required'" value="city" name="city" type="text" class="form-control" v-model="city" placeholder="City">
         <span v-show="errors.has('city')" class="text-danger">{{ errors.first('street') }}</span>
       </div>
       <div class="form-group">
         <label for="state">State</label>
-          <select v-validate="'required|not_in:'" name="state" class="form-control" v-model="state">
+          <select v-validate="'required|not_in:'" value="state" name="state" class="form-control" v-model="state">
             <option value="">-</option>
             <option value="AK">Alaska</option>
             <option value="AL">Alabama</option>
@@ -97,10 +97,10 @@
       </div>
       <div class="form-group">
         <label for="zipcode">Zipcode</label>
-        <input v-validate="'required|digits:5'" name="zipcode" type="text" class="form-control" v-model="zipcode" placeholder="Zipcode">
+        <input v-validate="'required|digits:5'" value="zipcode" name="zipcode" type="text" class="form-control" v-model="zipcode" placeholder="Zipcode">
         <span v-show="errors.has('zipcode')" class="text-danger">{{ errors.first('zipcode') }}</span>
       </div>
-      <button :disabled="errors.any()" @click.prevent="create" type="submit" class="btn btn-primary">Submit</button>
+      <button :disabled="errors.any()" @click.prevent="validate" type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
 </template>
@@ -113,6 +113,7 @@ import moment from 'moment';
 export default {
   data () {
     return {
+      id: '',
       firstname: '',
       lastname: '',
       email: '',
@@ -122,39 +123,91 @@ export default {
       city: '',
       state: '',
       zipcode: '',
-      message: '',
       currentDate: moment().format('MM/DD/YYYY')
+    }
+  },
+  mounted() {
+    if (this.$route.params.id) {
+      // Get contact information
+      this.getContact(this.$route.params.id);
+    }
+  },
+  watch: {
+    '$route.params.id'(newId, oldId) {
+      console.log(newId, oldId);
+      this.getContact(newId);
     }
   },
   methods: {
     // Configure Babel, inorder to use async/await 
     // https://stackoverflow.com/questions/46389267/using-async-await-with-webpack-simple-configuration-throwing-error-regeneratorr/46734082#46734082
-    async create () {
-      const response = await ContactService.create({
-        firstname: this.firstname,
-        lastname: this.lastname,
-        email: this.email,
-        number: this.number,
-        dob: this.dob,
-        street: this.street,
-        city: this.city,
-        state: this.state,
-        zipcode: this.zipcode,
-      });
-      // Display message regarding any errors or successful create
-      this.message = response.data.message;
-      // Display alert with response received from backend - error or success
-      swal(response.data.status, response.data.message, response.data.status);
-      // Reset input fields
-      this.firstname = '';
-      this.lastname = '';
-      this.email = '';
-      this.number = '',
-      this.dob = '',
-      this.street = '';
-      this.city = '';
-      this.state = '';
-      this.zipcode = '';
+    validate () {
+      // Checks validity of input fields
+      this.$validator.validateAll({ 
+          firstname: this.firstname, 
+          lastname: this.lastname,
+          email: this.email,
+          number: this.number,
+          dob: this.dob,
+          street: this.street,
+          city: this.city,
+          state: this.state,
+          zipcode: this.zipcode
+        })
+        .then(result => {
+          if (!result) {
+            // Validation failed
+            return;
+          }
+          // Validation successful
+          // Create or Update contact information
+          this.createOrUpdate(this.id);
+        }).catch(error => {
+          console.log('Something went wrong!', error);
+        });
+    },
+    async createOrUpdate (id) {
+      let contact = {
+          firstname: this.firstname,
+          lastname: this.lastname,
+          email: this.email,
+          number: this.number,
+          dob: this.dob,
+          street: this.street,
+          city: this.city,
+          state: this.state,
+          zipcode: this.zipcode,
+      }
+      if (id) {
+        contact['id'] = id;
+      }
+      let response = await ContactService.createOrUpdate(contact);
+      if (response.data.status === 'info' || response.data.status === 'warning') {
+        swal(response.data.status, response.data.message, response.data.status)
+      }
+      else {
+        // Display alert with response received from backend - error or success
+        swal(response.data.status, response.data.message, response.data.status)
+          .then(value => {
+            // When user clicks 'ok' button, routes to list of contacts page
+            this.$router.replace('/');
+          });
+      }
+    },
+    getContact(id) {
+      ContactService.getContact(this.$route.params.id)
+        .then(result => {
+          this.id = result.data[0].id;
+          this.firstname = result.data[0].firstname;
+          this.lastname = result.data[0].lastname;
+          this.email = result.data[0].email;
+          this.dob = result.data[0].dob;
+          this.number = result.data[0].number;
+          this.street = result.data[0].street;
+          this.city = result.data[0].city;
+          this.state = result.data[0].state;
+          this.zipcode = result.data[0].zipcode;
+        })
     }
   }
 }
