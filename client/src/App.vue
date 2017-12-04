@@ -16,6 +16,10 @@
   export default {
     components: {
       appHeader: Header
+    },
+    created() {
+        console.log('Initial Contacts');
+        this.$store.dispatch('initContacts');
     }
   }
 </script>

@@ -134,8 +134,6 @@ export default {
       this.message = response.data.message;
       // Display alert with response received from backend - error or success
       swal(response.data.status, response.data.message, response.data.status);
-      // Update Vuex state of contacts with newly added contact
-      this.$store.dispatch('addContact', response.data.contact)
       // Reset input fields
       this.firstname = '';
       this.lastname = '';

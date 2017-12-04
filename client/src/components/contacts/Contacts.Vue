@@ -14,7 +14,7 @@ export default {
         appSearchBar: SearchBar,
         appContactList: ContactList
     },
-    created() {
+    mounted() {
         this.$store.dispatch('initContacts');
     }
 }

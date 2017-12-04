@@ -28,18 +28,12 @@ import ContactService from '../../services/ContactService';
 import swal from 'sweetalert';
 
 export default {
-    data() {
-        return {
-            message: ''
-        }
-    },
     methods: {
-        deleteContact: async function(id) {
+        async deleteContact(id) {
             let response = await ContactService.delete({id: id})
-            this.message = response.data.message;
             swal(response.data.status, response.data.message, response.data.status);
             if (response.data.status === 'success'){
-                this.$store.dispatch('initContacts');
+                this.$store.dispatch('deleteContact', id);
             }
         }
     },
