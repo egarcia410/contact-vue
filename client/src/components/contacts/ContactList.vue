@@ -16,7 +16,7 @@
                 <p class="card-text">{{ contact.street }}</p>
                 <p class="card-text">{{ contact.city }}, {{ contact.state }} {{ contact.zipcode }}</p>
                 <div class="card-body">
-                    <button class="btn btn-danger delete">Delete Contact</button>
+                    <button @click="deleteContact(contact.id)" class="btn btn-danger delete">Delete Contact</button>
                 </div>
             </div>
         </li>
@@ -24,7 +24,25 @@
 </template>
 
 <script>
+import ContactService from '../../services/ContactService';
+import swal from 'sweetalert';
+
 export default {
+    data() {
+        return {
+            message: ''
+        }
+    },
+    methods: {
+        deleteContact: async function(id) {
+            let response = await ContactService.delete({id: id})
+            this.message = response.data.message;
+            swal(response.data.status, response.data.message, response.data.status);
+            if (response.data.status === 'success'){
+                this.$store.dispatch('initContacts');
+            }
+        }
+    },
     computed: {
         contacts() {
             return this.$store.getters.contacts;

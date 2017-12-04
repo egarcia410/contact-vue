@@ -43,5 +43,23 @@ module.exports = {
             .catch((error) => {
                 console.log(error)
             })
+    },
+    // Delete contact by id
+    delete(req, res) {
+        let id = req.body.id;
+        knex('contacts').where('id', id).del()
+            .then(result => {
+                res.send({
+                    status: 'success',
+                    message: 'Contact has been deleted!'
+                })
+            })
+            .catch(error => {
+                console.log(error);
+                res.send({
+                    status: 'error',
+                    message: 'Unable to delete contact!'
+                })
+            })
     }
 }

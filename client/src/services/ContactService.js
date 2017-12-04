@@ -6,5 +6,8 @@ export default {
     },
     getContacts() {
         return Api().get('get-contacts');
+    },
+    delete(id) {
+        return Api().post('delete-contact', id);
     }
 }

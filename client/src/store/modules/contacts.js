@@ -15,6 +15,13 @@ const mutations = {
         contacts.push(contact);
         // Set contacts state to the copied state
         state.contacts = contacts;
+    },
+    'DELETE_CONTACT' (state, id) {
+        console.log(id, 'Inside mutation')
+        let contacts = state.contacts.splice();
+        state.contacts = contacts.filter(contact => {
+            contact.id !== id;
+        });
     }
 
 }
@@ -31,6 +38,10 @@ const actions = {
     },
     addContact: ({commit}, contact) => {
         commit('ADD_CONTACT', contact);
+    },
+    deleteContact: ({commit}, id) => {
+        console.log('inside deletecontact store', id)
+        commit('DELETE_CONTACT', id);
     }
 }
 
