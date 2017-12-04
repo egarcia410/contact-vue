@@ -10,10 +10,13 @@ const mutations = {
         state.contacts = contacts;
     },
     'DELETE_CONTACT' (state, id) {
+        // Create a copy of original state contacts using lodash
         let contacts = _.cloneDeep(state.contacts);
+        // Remove contact based off of the contact's id
         let result = contacts.filter(contact => {
             return contact.id !== id;
         });
+        // Set the contacts state to the altered copy of the orignal state
         state.contacts = result;
     }
 }

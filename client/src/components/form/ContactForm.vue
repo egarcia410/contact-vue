@@ -3,35 +3,42 @@
     <form id="contact-form">
       <div class="form-group">
         <label for="firstname">First name</label>
-        <input type="text" class="form-control" v-model="firstname" placeholder="Enter First name">
+        <input v-validate="'required'" name="firstname" type="text" class="form-control" v-model="firstname" placeholder="Enter First name">
+        <span v-show="errors.has('firstname')" class="text-danger">{{ errors.first('firstname') }}</span>
       </div>
       <div class="form-group">
         <label for="lastname">Last name</label>
-        <input type="text" class="form-control" v-model="lastname" placeholder="Enter Last name">
+        <input v-validate="'required'" name="lastname" type="text" class="form-control" v-model="lastname" placeholder="Enter Last name">
+        <span v-show="errors.has('lastname')" class="text-danger">{{ errors.first('lastname') }}</span>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" v-model="email" placeholder="Enter Email">
+        <input v-validate="'required|email'" name="email" type="email" class="form-control" v-model="email" placeholder="Enter Email">
+        <span v-show="errors.has('email')" class="text-danger">{{ errors.first('email') }}</span>
       </div>
       <div class="form-group">
         <label for="number">Phone Number</label>
-        <input type="text" class="form-control" v-model="number" placeholder="Phone number">
+        <input v-validate="'required|digits: 10'" name="number" type="text" class="form-control" v-model="number" placeholder="1234567890">
+        <span v-show="errors.has('number')" class="text-danger">{{ errors.first('number') }}</span>
       </div>
       <div class="form-group">
         <label for="dob">Date of birth</label>
-        <input type="text" class="form-control" v-model="dob" placeholder="MM/DD/YYYY">
+        <input v-validate="'required|date_format:MM/DD/YYYY|before:' + currentDate" name="date" type="text" class="form-control" v-model="dob" placeholder="MM/DD/YYYY">
+        <span v-show="errors.has('date')" class="text-danger">{{ errors.first('date') }}</span>
       </div>
       <div class="form-group">
         <label for="email">Street Address</label>
-        <input type="text" class="form-control" v-model="street" placeholder="Street Address">
+        <input v-validate="'required'" name="street" type="text" class="form-control" v-model="street" placeholder="Street Address">
+        <span v-show="errors.has('street')" class="text-danger">{{ errors.first('street') }}</span>
       </div>
       <div class="form-group">
         <label for="city">City</label>
-        <input type="text" class="form-control" v-model="city" placeholder="City">
+        <input v-validate="'required'" name="city" type="text" class="form-control" v-model="city" placeholder="City">
+        <span v-show="errors.has('city')" class="text-danger">{{ errors.first('street') }}</span>
       </div>
       <div class="form-group">
         <label for="state">State</label>
-          <select class="form-control" v-model="state" name="state">
+          <select v-validate="'required|not_in:'" name="state" class="form-control" v-model="state">
             <option value="">-</option>
             <option value="AK">Alaska</option>
             <option value="AL">Alabama</option>
@@ -86,12 +93,14 @@
             <option value="WV">West Virginia</option>
             <option value="WY">Wyoming</option>
           </select>
+          <span v-show="errors.has('state')" class="text-danger">{{ errors.first('state') }}</span>
       </div>
       <div class="form-group">
         <label for="zipcode">Zipcode</label>
-        <input type="text" class="form-control" v-model="zipcode" placeholder="Zipcode">
+        <input v-validate="'required|digits:5'" name="zipcode" type="text" class="form-control" v-model="zipcode" placeholder="Zipcode">
+        <span v-show="errors.has('zipcode')" class="text-danger">{{ errors.first('zipcode') }}</span>
       </div>
-      <button @click.prevent="create" type="submit" class="btn btn-primary">Submit</button>
+      <button :disabled="errors.any()" @click.prevent="create" type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
 </template>
@@ -99,6 +108,7 @@
 <script>
 import ContactService from '../../services/ContactService';
 import swal from 'sweetalert';
+import moment from 'moment';
 
 export default {
   data () {
@@ -112,7 +122,8 @@ export default {
       city: '',
       state: '',
       zipcode: '',
-      message: ''
+      message: '',
+      currentDate: moment().format('MM/DD/YYYY')
     }
   },
   methods: {

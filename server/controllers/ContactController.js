@@ -4,6 +4,10 @@ module.exports = {
 
     // Create new contact
     create(req, res) {
+        let error = [];
+        // Used for email validation
+        // http://emailregex.com/
+        let re = new RegEx('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/');
         let contact = {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
@@ -15,8 +19,6 @@ module.exports = {
             number: req.body.number,
             email: req.body.email
         }
-
-        // Insert contact validation
 
         knex('contacts').insert(contact)
             .then((result) => {
