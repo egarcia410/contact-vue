@@ -132,12 +132,6 @@ export default {
       this.getContact(this.$route.params.id);
     }
   },
-  watch: {
-    '$route.params.id'(newId, oldId) {
-      console.log(newId, oldId);
-      this.getContact(newId);
-    }
-  },
   methods: {
     // Configure Babel, inorder to use async/await 
     // https://stackoverflow.com/questions/46389267/using-async-await-with-webpack-simple-configuration-throwing-error-regeneratorr/46734082#46734082
@@ -182,11 +176,12 @@ export default {
         contact['id'] = id;
       }
       let response = await ContactService.createOrUpdate(contact);
+      // If response wasn't good :(
       if (response.data.status === 'info' || response.data.status === 'warning') {
         swal(response.data.status, response.data.message, response.data.status)
       }
+      // Response was good, contact was either Created or Updated
       else {
-        // Display alert with response received from backend - error or success
         swal(response.data.status, response.data.message, response.data.status)
           .then(value => {
             // When user clicks 'ok' button, routes to list of contacts page
@@ -194,11 +189,12 @@ export default {
           });
       }
     },
+    // Get one contact
     getContact(id) {
       ContactService.getContact(this.$route.params.id)
         .then(result => {
+          // Contact does not exist, user was playing around with URL
           if (result.data.status === 'error') {
-            // Contact does not exist, user was playing around with URL
             swal(result.data.status, result.data.message, result.data.status)
                     .then(value => {
                       // When user clicks 'ok' button, routes to list of contacts page
@@ -206,6 +202,7 @@ export default {
                     });
             return;
           }
+          // Sets the contact's information
           this.id = result.data[0].id;
           this.firstname = result.data[0].firstname;
           this.lastname = result.data[0].lastname;
