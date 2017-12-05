@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- <app-search /> -->
+        <app-search-bar />
         <app-contact-list />
     </div>
 </template>

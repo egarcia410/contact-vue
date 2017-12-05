@@ -1,6 +1,6 @@
 <template>
     <ul>
-        <li v-for="contact in contacts" :key="contact.id">
+        <li v-for="contact in filteredContacts" :key="contact.id">
             <div class="card" style="width: 21rem;">
                 <img class="card-img-top" :src="'https://robohash.org/set_set' + contact.id + '/bgset_bg1/' + contact.email + '?size=210x200'" alt="Profile picture">
                 <div class="card-body">
@@ -11,7 +11,7 @@
                 <div class="title">Phone</div>
                 <p class="card-text">{{ contact.number }}</p>
                 <div class="title">DOB</div>
-                <p class="card-text">{{ contact.dob }}</p>
+                <p class="card-text">{{ formatDate(contact.dob) }}</p>
                 <div class="title">Address</div>
                 <p class="card-text">{{ contact.street }}</p>
                 <p class="card-text">{{ contact.city }}, {{ contact.state }} {{ contact.zipcode }}</p>
@@ -31,6 +31,8 @@
 <script>
 import ContactService from '../../services/ContactService';
 import swal from 'sweetalert';
+import moment from 'moment';
+
 
 export default {
     methods: {
@@ -40,11 +42,14 @@ export default {
             if (response.data.status === 'success'){
                 this.$store.dispatch('deleteContact', id);
             }
+        },
+        formatDate(date) {
+            return moment(date, moment.ISO_8601).format('MM/DD/YYYY')
         }
     },
     computed: {
-        contacts() {
-            return this.$store.getters.contacts;
+        filteredContacts() {
+            return this.$store.getters.filteredContacts;
         }
     }
 }

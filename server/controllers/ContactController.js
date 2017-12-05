@@ -116,7 +116,7 @@ module.exports = {
     },
     // Retrieve all contacts
     getContacts(req, res) {
-        knex.select().table('contacts')
+        knex('contacts').orderBy('created_at', 'desc')
             .then((result) => {
                 res.send(result);
             })
@@ -147,8 +147,15 @@ module.exports = {
 
         knex('contacts').where('id', req.params.id)
             .then((result) => {
-                console.log(result, 'Inside get contact')
-                res.send(result);
+                // Contact exists in database
+                if (result.length > 0) {
+                    return res.send(result);
+                }
+                // If contact does not exist
+                res.send({
+                    status: 'error',
+                    message: 'Contact does not exist!'
+                })
             })
             .catch((error) => {
                 console.log(error)

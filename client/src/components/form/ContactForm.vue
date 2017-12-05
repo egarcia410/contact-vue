@@ -197,11 +197,20 @@ export default {
     getContact(id) {
       ContactService.getContact(this.$route.params.id)
         .then(result => {
+          if (result.data.status === 'error') {
+            // Contact does not exist, user was playing around with URL
+            swal(result.data.status, result.data.message, result.data.status)
+                    .then(value => {
+                      // When user clicks 'ok' button, routes to list of contacts page
+                      this.$router.replace('/');
+                    });
+            return;
+          }
           this.id = result.data[0].id;
           this.firstname = result.data[0].firstname;
           this.lastname = result.data[0].lastname;
           this.email = result.data[0].email;
-          this.dob = result.data[0].dob;
+          this.dob = moment(result.data[0].dob, moment.ISO_8601).format('MM/DD/YYYY');
           this.number = result.data[0].number;
           this.street = result.data[0].street;
           this.city = result.data[0].city;
