@@ -1,5 +1,5 @@
 <template>
-    <ul>
+    <ul v-if="filteredContacts.length > 0">
         <li v-for="contact in filteredContacts" :key="contact.id">
             <div class="card" style="width: 21rem;">
                 <img class="card-img-top" :src="'https://robohash.org/set_set' + contact.id + '/bgset_bg1/' + contact.email + '?size=210x200'" alt="Profile picture">
@@ -26,6 +26,7 @@
             </div>
         </li>
     </ul>
+    <h2 class="header" v-else>No Contacts! Be the first to add</h2>
 </template>
 
 <script>
@@ -56,6 +57,10 @@ export default {
 </script>
 
 <style scoped>
+.header {
+    text-align: center;
+}
+
 li {
     display: inline-block;
     vertical-align:top;

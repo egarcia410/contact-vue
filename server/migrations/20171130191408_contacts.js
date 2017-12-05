@@ -11,7 +11,7 @@ exports.up = function(knex, Promise) {
         table.string('zipcode').notNullable();
         table.string('number').notNullable();
         table.string('email').notNullable();
-        table.timestamps().notNullable().defaultTo(knex.raw('now()'));
+        table.dateTime('created_at').notNullable().defaultTo(knex.raw('now()'));
     }) 
 };
 
