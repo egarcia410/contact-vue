@@ -2,6 +2,20 @@
 
 CRUD application where users can enter their contacts information. Users can also seach through their contacts.
 
+## Technologies
+
+## Technologies
+
+* Vue
+* Vue-router
+* Vuex
+* Vee-validate
+* Javascript
+* Express
+* Knex
+* PostgrSQL
+* Axios
+
 ## Getting Started
 
 1. Install [Node.js](https://nodejs.org/en/download/)
