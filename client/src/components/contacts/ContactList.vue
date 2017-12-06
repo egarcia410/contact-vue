@@ -26,7 +26,7 @@
             </div>
         </li>
     </ul>
-    <h2 class="header" v-else>No Contacts! Be the first to add</h2>
+    <h2 class="header" v-else>No Contacts! Be the first to add / </h2>
 </template>
 
 <script>

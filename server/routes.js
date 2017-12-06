@@ -12,7 +12,6 @@ module.exports = (app) => {
     app.get('/dist/build.js', function (req, res) {
         res.sendFile(path.normalize(__dirname + '/../client/dist/build.js'));
     });
-
     app.all('/*', function (req, res) {
         res.sendFile(path.normalize(__dirname + '/../client/index.html'));
     });

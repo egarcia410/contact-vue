@@ -2,7 +2,14 @@ import axios from 'axios'
 
 // Creates and instance of axios, setting the base URL to link up with the backend
 export default () => {
+    if(location.port) {
+        // For development
+        var url = location.protocol + '//' + location.hostname + ":" + location.port;
+    } else {
+        // For production
+        var url = location.protocol + '//' + location.hostname;
+    }
     return axios.create({
-        baseURL: location.href.slice()
+        baseURL: url
     })
 }
