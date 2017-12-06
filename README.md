@@ -4,8 +4,6 @@ CRUD application where users can enter their contacts information. Users can als
 
 ## Technologies
 
-## Technologies
-
 * Vue
 * Vue-router
 * Vuex
